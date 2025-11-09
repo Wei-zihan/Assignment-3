@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑区漫游 - WANDER</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0a0a0f',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-match-image {
+                background-color: #0a0a0f;
+            }
+            .content-container {
+                max-width: 1920px;
+                margin: 0 auto;
+                width: 100%;
+            }
+        }
+        
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #0a0a0f;
+        }
+        
+        /* 确保所有屏幕内容保持一致的最大宽度 */
+        .screen-container {
+            max-width: 1920px;
+            margin: 0 auto;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-match-image min-h-screen flex flex-col items-center justify-start overflow-auto m-0 p-0">
+    <!-- 第一屏 -->
+    <div class="w-full h-screen screen-container">
+        <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/fdd07ee2e4f547ed9fd30e9ceacd0c50.png~tplv-a9rns2rl98-24:720:720.png?rcl=20251106155157FAD468D1C354846C7795&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1763020317&x-signature=sIGPT%2FWA4oq3dLxVW3VxqaEFP00%3D" 
+             alt="暗黑区漫游 - WANDER" 
+             class="w-full h-full object-contain">
+    </div>
+    
+    <!-- 第二屏 -->
+    <div class="w-full h-screen screen-container relative" id="second-screen">
+        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/4dc1f26c6f014e568131e7844ced3821.png~tplv-a9rns2rl98-24:720:720.png?rcl=2025110718315199E64F2229F391BE7E54&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1763116311&x-signature=T2hLV5DzTLS0a3NHNmKWPzCvRQI%3D" 
+             alt="暗黑区漫游 - 第二屏" 
+             class="w-full h-full object-contain">
+        
+        <!-- SVG圆圈标记 - 位于左侧01图的左上角 -->
+        <div class="absolute top-[38.5%] left-[2.3%] w-[250px] h-[250px] pointer-events-none opacity-0 transition-opacity duration-1000" id="circle-animation-container">
+            <svg id="circle-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 258.54 258.54" class="w-full h-full">
+                <defs>
+                    <style>
+                        #circle-svg .circle-1 {
+                            fill: none;
+                            stroke: #65c3ff;
+                            stroke-miterlimit: 10;
+                            stroke-width: 3px;
+                            transform-origin: center;
+                            transform: scale(0);
+                            transition: transform 1s ease-out;
+                        }
+                        #circle-svg .text-1 {
+                            fill: white;
+                            font-family: TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif;
+                            font-size: 28px;
+                            font-style: italic;
+                            opacity: 0;
+                            transition: opacity 0.8s ease-out;
+                        }
+                        #circle-svg .text-x {
+                            transition-delay: 0.3s;
+                        }
+                        #circle-svg .text-bx {
+                            transition-delay: 0.5s;
+                        }
+                    </style>
+                </defs>
+                <circle class="circle-1" cx="129.27" cy="129.27" r="128.27"/>
+                <text class="text-1 text-x" x="156.63" y="41.91" id="text-x">X'</text>
+                <text class="text-1 text-bx" x="129.02" y="144.94" id="text-bx">B(X')</text>
+            </svg>
+        </div>
+        
+        <!-- SVG虚线引导 - 位于右侧图 -->
+        <div class="absolute top-[39.5%] right-[61.5%] w-[150px] h-[210px] pointer-events-none opacity-0 transition-opacity duration-1000" id="dashed-line-container">
+            <svg id="dashed-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 191.94 265.7" class="w-full h-full">
+                <defs>
+                    <style>
+                        #dashed-svg .dashed-line {
+                            fill: none;
+                            stroke: #65c3ff;
+                            stroke-width: 5px;
+                            stroke-miterlimit: 10;
+                            stroke-dashoffset: 100;
+                            transition: stroke-dashoffset 1.5s ease-out;
+                        }
+                        #dashed-svg .yellow-line {
+                            fill: none;
+                            stroke: #fcee21;
+                            stroke-width: 6px;
+                            stroke-miterlimit: 10;
+                            stroke-dasharray: 0 0 15 6;
+                            stroke-dashoffset: 100;
+                            transition: stroke-dashoffset 1.5s ease-out;
+                        }
+                        #dashed-svg .blue-circle {
+                            fill: #65c3ff;
+                            opacity: 0;
+                            transition: opacity 0.8s ease-out;
+                        }
+                        #dashed-svg .yellow-circle {
+                            fill: #fcee21;
+                            opacity: 0;
+                            transition: opacity 0.8s ease-out;
+                        }
+                        #dashed-svg .text-label {
+                            fill: #fff;
+                            font-family: TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif;
+                            font-size: 28px;
+                            font-style: italic;
+                            opacity: 0;
+                            transition: opacity 0.8s ease-out;
+                        }
+                        #dashed-svg .dash-1 { stroke-dasharray: 0 0 15.08 6.03; }
+                        #dashed-svg .dash-3 { stroke-dasharray: 0 0 17.93 7.17; }
+                        #dashed-svg .dash-4 { stroke-dasharray: 0 0 11.45 4.58; }
+                        #dashed-svg .dash-5 { stroke-dasharray: 0 0 16.72 6.69; }
+                        #dashed-svg .dash-6 { stroke-dasharray: 0 0 13.11 5.25; }
+                        #dashed-svg .dash-7 { stroke-dasharray: 0 0 12.43 4.97; }
+                        #dashed-svg .dash-9 { stroke-dasharray: 0 0 13.49 5.39; }
+                    </style>
+                </defs>
+                <g>
+                    <line class="dashed-line" y1="95.26" x2="7.5" y2="95.26"/>
+                    <line class="dashed-line dash-7" x1="12.47" y1="95.26" x2="44.8" y2="95.26"/>
+                    <polyline class="dashed-line" points="47.29 95.26 54.79 95.26 54.79 102.76"/>
+                    <line class="dashed-line dash-5" x1="54.79" y1="109.45" x2="54.79" y2="129.52"/>
+                    <polyline class="dashed-line" points="54.79 132.86 54.79 140.36 62.29 140.36"/>
+                    <polyline class="dashed-line dash-1" points="68.32 140.36 95.34 140.36 105.33 147.37"/>
+                    <polyline class="dashed-line" points="107.8 149.11 113.93 153.42 113.93 160.92"/>
+                    <line class="dashed-line dash-4" x1="113.93" y1="165.49" x2="113.93" y2="195.25"/>
+                    <polyline class="dashed-line" points="113.93 197.54 113.93 205.04 106.43 205.04"/>
+                    <line class="dashed-line dash-6" x1="101.19" y1="205.04" x2="67.09" y2="205.04"/>
+                    <polyline class="dashed-line" points="64.47 205.04 56.97 205.04 56.97 212.54"/>
+                    <line class="dashed-line dash-9" x1="56.97" y1="217.94" x2="56.97" y2="253"/>
+                    <polyline class="dashed-line" points="56.97 255.7 56.97 263.2 49.47 263.2"/>
+                    <line class="dashed-line dash-3" x1="42.29" y1="263.2" x2="20.78" y2="263.2"/>
+                    <line class="dashed-line" x1="17.19" y1="263.2" x2="9.69" y2="263.2"/>
+                </g>
+                <polyline class="yellow-line" points="56.18 140.95 94.85 140.95 116.21 154.9 128.27 154.9 128.27 31.04 135.69 .71"/>
+                <circle class="blue-circle" cx="15.63" cy="190.9" r="11.67" id="blue-circle"/>
+                <circle class="yellow-circle" cx="156.2" cy="50.51" r="11.67" id="yellow-circle"/>
+                <text class="text-label" transform="translate(176.09 62.18)" id="text-right-x"><tspan x="0" y="0">X</tspan></text>
+                <text class="text-label" transform="translate(33.67 202.57)" id="text-right-x-prime"><tspan x="0" y="0">X’</tspan></text>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- 第三屏 -->
+    <div class="w-full h-screen screen-container relative">
+        <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/5640bd6ac38b4a14b22ed6679d7bebbd.png~tplv-a9rns2rl98-24:720:720.png?rcl=202511061831246C70FB76839E1018885E&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1763029884&x-signature=5mUqWje9M5EtbNKKzQVAnYJfSps%3D" 
+             alt="暗黑区漫游 - 第三屏" 
+             class="w-full h-full object-contain">
+        
+        <!-- SVG文字标签 -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <!-- ADJUST INTENSITY -->
+            <div class="absolute top-[65%] left-[8.5%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="200" height="30" viewBox="0 0 200 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">ADJUST INTENSITY</text>
+                </svg>
+            </div>
+            
+            <!-- IMPURITIES -->
+            <div class="absolute top-[82%] left-[12.5%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="120" height="30" viewBox="0 0 120 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">IMPURITIES</text>
+                </svg>
+            </div>
+            
+            <!-- INHALE WATER -->
+            <div class="absolute top-[78%] left-[27.4%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="150" height="30" viewBox="0 0 150 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">INHALE WATER</text>
+                </svg>
+            </div>
+            
+            <!-- SUCTION INTAKE -->
+            <div class="absolute top-[18%] left-[35%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="180" height="30" viewBox="0 0 180 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">SUCTION INTAKE</text>
+                </svg>
+            </div>
+            
+            <!-- START PURIFICATION -->
+            <div class="absolute top-[28.3%] left-[56.3%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="200" height="30" viewBox="0 0 200 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">START PURIFICATION</text>
+                </svg>
+            </div>
+            
+            <!-- FILTER IMPURITIES -->
+            <div class="absolute top-[77.6%] left-[56.3%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="180" height="30" viewBox="0 0 180 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">FILTER IMPURITIES</text>
+                </svg>
+            </div>
+            
+            <!-- DRAIN PURIED WATER -->
+            <div class="absolute top-[83.8%] left-[67.6%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="200" height="30" viewBox="0 0 200 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">DRAIN PURIED WATER</text>
+                </svg>
+            </div>
+            
+            <!-- DISMANTLE THE TANK -->
+            <div class="absolute top-[65.5%] left-[83.3%] pointer-events-auto transform transition-transform duration-300 hover:scale-110 origin-center">
+                <svg width="200" height="30" viewBox="0 0 200 30">
+                    <text x="0" y="24" fill="white" font-family="TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif" font-size="18" font-style="italic" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', 'white')">DISMANTLE THE TANK</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 第四屏 -->
+    <div class="w-full h-screen screen-container relative" id="fourth-screen">
+        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/3a0e1fd8213b48018c5adfa4fdeccf9d.png~tplv-a9rns2rl98-24:720:720.png?rcl=20251109011434292823D882100A45D64E&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1763226874&x-signature=x6Db3D%2BTNvcxlqFIQIS1fwC7dAs%3D" 
+             alt="暗黑区漫游 - 第四屏" 
+             class="w-full h-full object-contain">
+        
+        <!-- SVG条形统计图 -->
+        <div class="absolute top-[10%] left-[5%] w-[420px] h-[370px] pointer-events-none">
+            <svg id="chart-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 467.63 404.23" class="w-full h-full">
+                <defs>
+                    <style>
+                        #chart-svg .bar {
+                            fill: #fff;
+                        }
+                        #chart-svg .text-label {
+                            fill: #fff;
+                            font-family: TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif;
+                            font-size: 24px;
+                            font-style: italic;
+                        }
+                        #chart-svg .value-label {
+                            fill: #44b6ff;
+                            font-family: TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif;
+                            font-size: 24px;
+                            font-style: italic;
+                        }
+                        #chart-svg .axis-line {
+                            fill: none;
+                            stroke: #fff;
+                            stroke-miterlimit: 10;
+                            stroke-width: 3px;
+                        }
+                        #chart-svg .dashed-rect {
+                            fill: none;
+                            stroke: #fff;
+                            stroke-miterlimit: 10;
+                            stroke-width: 3px;
+                            stroke-dasharray: 0 0 15 6;
+                        }
+                    </style>
+                </defs>
+                <polyline class="axis-line" points="48.69 0 48.69 358.42 467.63 358.42"/>
+                <text class="text-label" transform="translate(0 40.01)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">100</tspan></text>
+                <text class="value-label" transform="translate(87.31 238.65)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#44b6ff')"><tspan x="0" y="0">30</tspan></text>
+                <text class="value-label" transform="translate(227.73 37.47)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#44b6ff')"><tspan x="0" y="0">90</tspan></text>
+                <text class="value-label" transform="translate(357.49 211.47)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#44b6ff')"><tspan x="0" y="0">35</tspan></text>
+                <text class="text-label" transform="translate(137.95 165.07)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">50</tspan></text>
+                <text class="text-label" transform="translate(278.21 165.07)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">50</tspan></text>
+                <text class="text-label" transform="translate(409.75 165.07)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">50</tspan></text>
+                <text class="text-label" transform="translate(15.26 361.76)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">0</tspan></text>
+                <text class="text-label" transform="translate(95.48 398.55)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">Power</tspan></text>
+                <text class="text-label" transform="translate(222.36 398.55)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">Inflow</tspan></text>
+                <text class="text-label" transform="translate(325.61 398.97)" onmouseover="this.setAttribute('fill', '#fdeb2a')" onmouseout="this.setAttribute('fill', '#fff')"><tspan x="0" y="0">Purified Water</tspan></text>
+                <rect class="bar" x="79.55" y="251.6" width="46.29" height="106.81"/>
+                <rect class="dashed-rect" x="127.83" y="179.21" width="46.29" height="179.21"/>
+                <rect class="bar" x="217.22" y="48.66" width="46.29" height="309.76"/>
+                <rect class="dashed-rect" x="265.5" y="179.21" width="46.29" height="179.21"/>
+                <rect class="bar" x="347.77" y="221.34" width="46.29" height="137.08"/>
+                <rect class="dashed-rect" x="396.05" y="179.21" width="46.29" height="179.21"/>
+            </svg>
+        </div>
+        
+        <!-- SVG饼图 -->
+        <div class="absolute top-[35%] right-[4%] w-[350px] h-[300px] pointer-events-none">
+            <svg id="pie-chart-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362.96 323.6" class="w-full h-full">
+                <defs>
+                    <style>
+                        #pie-chart-svg .cls-1 {
+                            fill: #e1f5ff;
+                        }
+                        #pie-chart-svg .cls-2 {
+                            font-size: 18px;
+                        }
+                        #pie-chart-svg .cls-2, #pie-chart-svg .cls-3, #pie-chart-svg .cls-4 {
+                          fill: #000;
+                          font-family: TriumvirateCGInserat-Italic, 'Triumvirate CG Inserat', Arial, sans-serif;
+                          font-size: 24px;
+                          font-style: italic;
+                        }
+                        #pie-chart-svg .cls-5 {
+                            fill: #d2edfd;
+                        }
+                        #pie-chart-svg .cls-3 {
+                            font-size: 22px;
+                        }
+                        #pie-chart-svg .cls-6 {
+                            fill: #69c5ff;
+                        }
+                        #pie-chart-svg .cls-7 {
+                            fill: #e4f4fd;
+                        }
+                        #pie-chart-svg .cls-4 {
+                            font-size: 24px;
+                        }
+                        #pie-chart-svg .cls-8 {
+                            letter-spacing: -.04em;
+                        }
+                        #pie-chart-svg .cls-9 {
+                            fill: #c6e8fd;
+                        }
+                        #pie-chart-svg .cls-10 {
+                            fill: #a8ddff;
+                        }
+                        #pie-chart-svg .cls-11 {
+                            fill: #8ad1ff;
+                        }
+                        #pie-chart-svg text {
+                            fill: #fff;
+                        }
+                        #pie-chart-svg text:hover {
+                            fill: #fdeb2a;
+                        }
+                    </style>
+                </defs>
+                <circle class="cls-10" cx="173.27" cy="101.27" r="101.27"/>
+                <circle class="cls-7" cx="101.27" cy="222.33" r="101.27"/>
+                <circle class="cls-6" cx="237.36" cy="222.33" r="101.27"/>
+                <path class="cls-11" d="M138.85,196.72c10.6,3.77,22.02,5.83,33.92,5.83,47.09,0,86.66-32.13,98.01-75.67-10.6-3.77-22.02-5.83-33.92-5.83-47.09,0-86.66,32.13-98.01,75.67Z"/>
+                <path class="cls-5" d="M75.78,124.59c10.53,44.69,50.66,77.96,98.57,77.96,9.2,0,18.1-1.23,26.57-3.53-10.53-44.69-50.66-77.96-98.57-77.96-9.2,0-18.1,1.23-26.57,3.53Z"/>
+                <path class="cls-9" d="M136.13,222.19c0,29.74,12.82,56.48,33.23,75.01,20.41-18.53,33.23-45.27,33.23-75.01s-12.82-56.48-33.23-75.01c-20.41,18.53-33.23,45.27-33.23,75.01Z"/>
+                <path class="cls-1" d="M169.05,147.18c-14.29,12.97-24.84,29.96-29.9,49.19,10.64,3.91,22.12,6.08,34.1,6.17,9.11-.07,17.93-1.35,26.32-3.68-4.78-20.25-15.62-38.16-30.52-51.68Z"/>
+                <text class="cls-4" transform="translate(163.91 72.79)"><tspan x="0" y="0">II</tspan></text>
+                <text class="cls-3" transform="translate(243.38 82.38)"><tspan x="0" y="0">Replace</tspan></text>
+                <text class="cls-3" transform="translate(257.62 304.71)"><tspan x="0" y="0">Re</tspan><tspan class="cls-8" x="31.55" y="0">f</tspan><tspan x="40.24" y="0">actor</tspan></text>
+                <text class="cls-3" transform="translate(0 297.2)"><tspan x="0" y="0">Filter</tspan></text>
+                <text class="cls-4" transform="translate(72 248.44)"><tspan x="0" y="0">I</tspan></text>
+                <text class="cls-4" transform="translate(242.9 248.44)"><tspan x="0" y="0">III</tspan></text>
+                <text class="cls-4" transform="translate(151.91 244.48)"><tspan x="0" y="0">VI</tspan></text>
+                <text class="cls-4" transform="translate(112.55 168.54)"><tspan x="0" y="0">IV</tspan></text>
+                <text class="cls-4" transform="translate(204.81 168.54)"><tspan x="0" y="0">V</tspan></text>
+                <text class="cls-2" transform="translate(152.82 187.53)"><tspan x="0" y="0">VII</tspan></text>
+            </svg>
+        </div>
+    </div>
+    <script>
+        // 监听滚动事件，当用户滚动到第二屏时触发动画
+        window.addEventListener('scroll', function() {
+            // 获取元素
+            const secondScreen = document.getElementById('second-screen');
+            const circleContainer = document.getElementById('circle-animation-container');
+            const dashedLineContainer = document.getElementById('dashed-line-container');
+            const animatedCircle = document.querySelector('#circle-svg .circle-1');
+            const textX = document.getElementById('text-x');
+            const textBX = document.getElementById('text-bx');
+            const blueCircle = document.getElementById('blue-circle');
+            const yellowCircle = document.getElementById('yellow-circle');
+            const textRightX = document.getElementById('text-right-x');
+            const textRightXPrime = document.getElementById('text-right-x-prime');
+            const dashedLines = document.querySelectorAll('#dashed-svg .dashed-line, #dashed-svg .yellow-line');
+            
+            // 获取第二屏的位置信息
+            const rect = secondScreen.getBoundingClientRect();
+            
+            // 当第二屏完全离开视口时，重置动画状态
+            if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                circleContainer.style.opacity = '0';
+                dashedLineContainer.style.opacity = '0';
+                animatedCircle.style.transform = 'scale(0)';
+                textX.style.opacity = '0';
+                textBX.style.opacity = '0';
+                blueCircle.style.opacity = '0';
+                yellowCircle.style.opacity = '0';
+                textRightX.style.opacity = '0';
+                textRightXPrime.style.opacity = '0';
+                
+                dashedLines.forEach(line => {
+                    line.style.strokeDashoffset = '100';
+                });
+            }
+            
+            // 当第二屏进入视口时触发动画
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                // 延迟显示左侧圆环容器，增加淡入效果
+                setTimeout(() => {
+                    circleContainer.style.opacity = '1';
+                    
+                    // 延迟一点时间开始圆圈放大动画
+                    setTimeout(() => {
+                        animatedCircle.style.transform = 'scale(1)';
+                        
+                        // 延迟后显示左侧文字，增加淡入效果
+                        setTimeout(() => {
+                            textX.style.opacity = '1';
+                            textBX.style.opacity = '1';
+                            
+                            // 左侧动画完成后，延迟开始右侧虚线动画
+                            setTimeout(() => {
+                                // 增加淡入效果
+                                dashedLineContainer.style.opacity = '1';
+                                
+                                // 显示所有虚线，增加淡入效果
+                                dashedLines.forEach((line, index) => {
+                                    setTimeout(() => {
+                                        line.style.strokeDashoffset = '0';
+                                    }, index * 150); // 增加间隔时间，使动画更流畅
+                                });
+                                
+                                // 显示圆圈和文字，增加淡入效果
+                                setTimeout(() => {
+                                    blueCircle.style.opacity = '1';
+                                    yellowCircle.style.opacity = '1';
+                                    textRightX.style.opacity = '1';
+                                    textRightXPrime.style.opacity = '1';
+                                }, 1200); // 增加延迟时间，使动画更自然
+                            }, 800); // 增加延迟时间
+                        }, 600); // 增加延迟时间
+                    }, 500); // 增加延迟时间
+                }, 800); // 增加初始延迟，让用户有时间看到第二屏背景
+            }
+        });
+        
+        // 页面加载时检查是否已经在第二屏（用于刷新页面时）
+        window.addEventListener('load', function() {
+            const secondScreen = document.getElementById('second-screen');
+            if (secondScreen) {
+                const rect = secondScreen.getBoundingClientRect();
+                
+                // 如果第二屏已经在视口中，触发动画
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const event = new Event('scroll');
+                    window.dispatchEvent(event);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
